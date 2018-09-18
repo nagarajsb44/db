@@ -1,0 +1,160 @@
+mysql> create database nagaraj;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use nagaraj;
+Database changed
+mysql> create table physicians(id int(10), name varchar(20), password varchar(10));
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> $ insert into physicians values('1','nagaraj','678');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '$ insert into physicians values('1','nagaraj','678')' at line 1
+mysql>  insert into physicians values('1','nagaraj','678');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from physicians;
++------+---------+----------+
+| id   | name    | password |
++------+---------+----------+
+|    1 | nagaraj | 678      |
++------+---------+----------+
+1 row in set (0.00 sec)
+
+mysql> create table patients( id int(10), personalno int(20), primary key(personalno), firstname varchar(20), secondname varchar(20), sex varchar(10), dateofbirth varchar(20), placeofbirth varchar(20), placeofresidence varchar(20), physician varchar(20), foreign key(physician) references physicians(name));
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> create table patients( id int(10), personalno int(20), primary key(personalno), firstname varchar(10), secondname varchar(10), sex varchar(10), dateofbirth varchar(20), placeofbirth varchar(20), placeofresidence varchar(10), physician varchar(10), foreign key(physician), references physicians(name));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' references physicians(name))' at line 1
+mysql> create table patients( id int(10), personalno int(20), primary key(personalno), firstname varchar(10), secondname varchar(10), sex varchar(10), dateofbirth varchar(20), placeofbirth varchar(20), placeofresidence varchar(10), physician varchar(10), foreign key(physician) references physicians(name));
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> drop table physicians;
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> create table physicians(id int(10), name varchar(20),password varchar(10) primary key(name));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name))' at line 1
+mysql> create table physicians(id int(10), name varchar(20),password varchar(10) primary key(name));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name))' at line 1
+mysql> create table physicians(id int(10),name varchar(10),password varchar(10), primary key(name));
+Query OK, 0 rows affected (0.19 sec)
+
+mysql>  insert into physicians values('1','nagaraj','678');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from physicians;
++------+---------+----------+
+| id   | name    | password |
++------+---------+----------+
+|    1 | nagaraj | 678      |
++------+---------+----------+
+1 row in set (0.00 sec)
+
+mysql> create table patients( id int(10), personalno int(20), primary key(personalno), firstname varchar(10), secondname varchar(10), sex varchar(10), dateofbirth varchar(20), placeofbirth varchar(20), placeofresidence varchar(10), physician varchar(10), foreign key(physician) references physicians(name));
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> insert into values('1','123','nagraj','b','male','23 june','bijapur','banglore','nagaraj');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values('1','123','nagraj','b','male','23 june','bijapur','banglore','nagaraj')' at line 1
+mysql> insert into patients values('1','123','nagraj','b','male','23 june','bijapur','banglore','nagaraj');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from patients;
++------+------------+-----------+------------+------+-------------+--------------+------------------+-----------+
+| id   | personalno | firstname | secondname | sex  | dateofbirth | placeofbirth | placeofresidence | physician |
++------+------------+-----------+------------+------+-------------+--------------+------------------+-----------+
+|    1 |        123 | nagraj    | b          | male | 23 june     | bijapur      | banglore         | nagaraj   |
++------+------------+-----------+------------+------+-------------+--------------+------------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> create table consultation( idconsultation int(10), personalno int(10), dateofconsultation varchar(20), weight int(10), height int(10), diagnostic varchar(10), selectedbones varchar(20), realscore varchar(20), maturityscore varchar(20), boneage varchar(20), physician varchar(20), foreign key(personalno) references patients(personalno), foreign key(physician) references physicians(name), primary key (diagnostic));
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> insert into consultation values('20','8964523142','18nov','48','4.5','bone','facial','10','27','39','nagaraj');
+ERROR 1264 (22003): Out of range value for column 'personalno' at row 1
+mysql> insert into consultation values('111','8964523142','18nov','48','4.5','bone','facial','10','27','39','nagaraj');
+ERROR 1264 (22003): Out of range value for column 'personalno' at row 1
+mysql> insert into consultation values('111','8964523142','18nov','48','4.5','bone','facial','10','27','39','nagaraj');
+ERROR 1264 (22003): Out of range value for column 'personalno' at row 1
+mysql> insert into consultation values('11','8964523142','18nov','48','4.5','bone','facial','10','27','39','nagaraj');
+ERROR 1264 (22003): Out of range value for column 'personalno' at row 1
+mysql> insert into consultation values('1','8964523142','18nov','48','4.5','bone','facial','10','27','39','nagaraj');
+ERROR 1264 (22003): Out of range value for column 'personalno' at row 1
+mysql> insert into consultation values('1','8964523','18nov','48','4.5','bone','facial','10','27','39','nagaraj');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`nagaraj`.`consultation`, CONSTRAINT `consultation_ibfk_1` FOREIGN KEY (`personalno`) REFERENCES `patients` (`personalno`))
+mysql> create table consultation( idconsultation int(10), personalno int(20), dateofconsultation varchar(20), weight int(10), height int(10), diagnostic varchar(10), selectedbones varchar(20), realscore varchar(20), maturityscore varchar(20), boneage varchar(20), physician varchar(20), foreign key(personalno) references patients(personalno), foreign key(physician) references physicians(name), primary key (diagnostic));
+ERROR 1050 (42S01): Table 'consultation' already exists
+mysql> insert into consultation values('1','8964523','18nov','48','4.5','bone','facial','10','27','39','nagaraj');                            ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`nagaraj`.`consultation`, CONSTRAINT `consultation_ibfk_1` FOREIGN KEY (`personalno`) REFERENCES `patients` (`personalno`))
+mysql> drop table consultation;
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> create table consultation( idconsultation int(10), personalno int(20), dateofconsultation varchar(20), weight int(10), height int(10), diagnostic varchar(10), selectedbones varchar(20), realscore varchar(20), maturityscore varchar(20), boneage varchar(20), physician varchar(20), foreign key(personalno) references patients(personalno), foreign key(physician) references physicians(name), primary key (diagnostic));
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> insert into consultation values('111','8964523','18nov','48','4.5','bone','facial','10','27','39','nagaraj');ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`nagaraj`.`consultation`, CONSTRAINT `consultation_ibfk_1` FOREIGN KEY (`personalno`) REFERENCES `patients` (`personalno`))
+mysql> insert into consultation values('111','1234567','18nov','48','5','bone','facial','10','27','39','nagaraj');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`nagaraj`.`consultation`, CONSTRAINT `consultation_ibfk_1` FOREIGN KEY (`personalno`) REFERENCES `patients` (`personalno`))
+mysql> drop table consultation;                                                                                                               Query OK, 0 rows affected (0.11 sec)
+
+mysql> insert into consultation values('111','1234567','18nov','48','5','bone','facial','10','27','39','nagaraj');
+ERROR 1146 (42S02): Table 'nagaraj.consultation' doesn't exist
+mysql> create table consultation( idconsultation int(10), personalno int(20), dateofconsultation varchar(20), weight int(10), height int(10), diagnostic varchar(10), selectedbones varchar(20), realscore varchar(20), maturityscore varchar(20), boneage varchar(20), physician varchar(20), foreign key(personalno) references patients(personalno), foreign key(physician) references physicians(name), primary key (diagnostic));
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> insert into consultation values('111','1234567','18nov','48','5','bone','facial','10','27','39','nagaraj');                            ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`nagaraj`.`consultation`, CONSTRAINT `consultation_ibfk_1` FOREIGN KEY (`personalno`) REFERENCES `patients` (`personalno`))
+mysql> drop table consultation;
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> create table consultation( idconsultation int(10), personalno int(20), dateofconsultation varchar(20), weight int(10), height int(10), diagnostic varchar(10), selectedbones varchar(20), realscore varchar(20), maturityscore varchar(20), boneage varchar(20), physician varchar(20), foreign key(personalno) references patients(personalno), foreign key(physician) references physicians(name), primary key (diagnostic));
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> insert into consultation values('111','1234567','18nov','48','5','bone','facial','10','27','39','nagaraj');                            ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`nagaraj`.`consultation`, CONSTRAINT `consultation_ibfk_1` FOREIGN KEY (`personalno`) REFERENCES `patients` (`personalno`))
+mysql> drop table consultation;                                                                                                               Query OK, 0 rows affected (0.12 sec)
+
+mysql> create table consultation( idconsultation int(10), personalno int(20), dateofconsultation varchar(20), weight int(10), height int(10), diagnostic varchar(10), selectedbones varchar(20), realscore varchar(20), maturityscore varchar(20), boneage varchar(20), physician varchar(20), foreign key(personalno) references patients(personalno), foreign key(physician) references physicians(name), primary key (diagnostic));
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> insert into consultation values('111','123','18nov','48','5','bone','facial','10','27','39','nagraj');                            
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`nagaraj`.`consultation`, CONSTRAINT `consultation_ibfk_2` FOREIGN KEY (`physician`) REFERENCES `physicians` (`name`))
+mysql> drop table consultation;                                                                                                               Query OK, 0 rows affected (0.12 sec)
+
+mysql> create table consultation( idconsultation int(10), personalno int(20), dateofconsultation varchar(20), weight int(10), height int(10), diagnostic varchar(10), selectedbones varchar(20), realscore varchar(20), maturityscore varchar(20), boneage varchar(20), physician varchar(20), foreign key(personalno) references patients(personalno), foreign key(physician) references physicians(name), primary key(diagnostic));
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> insert into consultation values('111','123','23jan','34','5','bone','facial','20','16','21','nagaraj');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from consultation;
++----------------+------------+--------------------+--------+--------+------------+---------------+-----------+---------------+---------+-----------+
+| idconsultation | personalno | dateofconsultation | weight | height | diagnostic | selectedbones | realscore | maturityscore | boneage | physician |
++----------------+------------+--------------------+--------+--------+------------+---------------+-----------+---------------+---------+-----------+
+|            111 |        123 | 23jan              |     34 |      5 | bone       | facial        | 20        | 16            | 21      | nagaraj   |
++----------------+------------+--------------------+--------+--------+------------+---------------+-----------+---------------+---------+-----------+
+1 row in set (0.00 sec)
+
+mysql> create table bones(id varchar(10),bone varchar(30), stage varchar(30), text varchar(20), primary key(bone), foreign key(stage) references consultation(diagnostic));
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> insert into bones values('1','facial','bone','fractured');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from bones;
++------+--------+-------+-----------+
+| id   | bone   | stage | text      |
++------+--------+-------+-----------+
+| 1    | facial | bone  | fractured |
++------+--------+-------+-----------+
+1 row in set (0.00 sec)
+
+mysql> create table bonestage(id varchar(20), name varchar(20), stages varchar(20), foreign key(id) references consultation(diagnostic));
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> insert into bonestage values('bone','elbow','second stage');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from bonestage
+    -> ;
++------+-------+--------------+
+| id   | name  | stages       |
++------+-------+--------------+
+| bone | elbow | second stage |
++------+-------+--------------+
+1 row in set (0.00 sec)
+
+mysql> 
+
